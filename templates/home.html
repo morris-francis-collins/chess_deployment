@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chess Winner Prediction</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Style -->
+    <!-- Examples at https://www.w3schools.com/w3css/w3css_examples.asp -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/w3.css')}}"></link>
+    <!-- Chart -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <!-- ChessBoard -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='libs/chessboard/css/chessboard-1.0.0.css')}}"></link>
+    <script type="text/javascript" src="{{ url_for('static',filename='libs/chessboard/js/chessboard-1.0.0.js')}}"></script>
+    <!-- Div Style -->
+    <style> div.none    {width:     750px; margin: auto; border: 0px solid #acb1a6; padding: 0px;}</style>
+    <style> div.fixed   {width:     750px; margin: auto; border: 1px solid #acb1a6; padding: 5px;}</style>
+    <style> div.flex    {max-width: 750px; margin: auto; border: 1px solid #acb1a6; padding: 5px;}</style>
+</head>
+
+
+<script>
+function myFunction(select) {
+    var pgn;
+    console.log("I am here");
+    switch (select) {
+        case  1: pgn = '1.d4 Nf6 2.Nf3 g6 3.c4 Bg7 4.Nc3 d6 5.e4 c6 6.Be2 O-O 7.O-O Qe8 8.e5 Nfd7 9.exd6 exd6 10.Bf4 Qe6 11.Re1 Rd8 12.Bd3 Qg4 13.Bxd6 Nf6 14.c5 Bf5 15.h3 Qh5 16.g4 Nxg4 17.Bxf5 gxf5 18.hxg4 fxg4 19.Ne5 f5 20.Qb3+ Kh8 21.Nf7+ Kg8 22.Nxd8+ Kh8 23.Nf7+ Kg8 24.Nh6+ Kh8 25.Qg8#'; break;
+        case  2: pgn = '1.e4 e6 2.d4 d5 3.Nd2 Be7 4.e5 c5 5.Qg4 g6 6.dxc5 Nd7 7.Ndf3 Nxc5 8.Bd3 Qa5+ 9.Bd2 Qb6 10.b4 Nxd3+ 11.cxd3 Bd7 12.a4 h5 13.Qd4 Nh6 14.Ne2 Nf5 15.Qb2 O-O 16.O-O Rfc8 17.h3 Qa6 18.b5 Qb6 19.Ned4 Bc5 20.Nxf5 exf5 21.a5 Qxb5 22.Rfb1 Qxb2 23.Rxb2 Bc6 24.Be3 b6 25.d4 Be7 26.axb6 axb6 27.Rxa8 Rxa8 28.Rxb6 Rc8 29.Bg5 Bf8 30.e6 fxe6 31.Ne5 Be8 32.Rxe6 Kh7 33.Ra6 Bg7 34.Bf6 Bxf6 35.Rxf6 Kg7 36.Rd6 Bf7 37.Rd7 Rf8 38.h4 f4 39.Rb7 Kg8 40.Kf1 Be8 41.Ke2 Rf6 42.Kf3 Kf8 43.Rc7 Ba4 44.Rc5 Bd1#'; break; 
+        case  3: pgn = '1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7 9.Bd3 Bxd3 10.Qxd3 Ngf6 11.Bf4 e6 12.O-O-O Be7 13.Ne4 O-O 14.Kb1'; break; 
+        default: pgn = $('#pgn').val(); break;
+    } 
+    // var pgn = $('#pgn').val();
+    $.ajax({
+        url: "/join",
+        type: "POST",
+        data: {pgn:pgn}
+    }).done(function(response) {
+
+        // Start of dynamic section
+        //var html = "<br><div id="board1" style="width: 400px"></div><p><b>Move Ratings:</b></p>";
+        var html = '';
+
+        switch (select) {
+            default: 
+                html +='<div align="left" class="fixed">';
+                html +='The PGN evaluated in this run is '+pgn;    
+                html +="<br></div></p>";
+            break;
+        }
+
+        // HTML Chart
+        html +='<div align="center" class="fixed"><h3>Move Ratings</h3>';
+        html +='<p>Positive values correlate with a win for white, negative values with a win for black<br>Zero indicates a tie</p>';
+        html +='<canvas id="myChart" style="width:100%;max-width:650px"></canvas>';
+        html +="<br></div><br>";
+        
+        // HTML ChessBoard
+        html +='<div align="center" class="fixed"><h3>Moves on Board</h3>';
+        html +='<div id="board" style="width: 400px"><br></div><br>';
+        // html +='<button id="clearBtn">Clear Board</button>';
+        // html +='<button id="setFenBtn">FEN</button>';
+
+        // HTML Table
+        html += '<div style="height:150px; overflow:auto;">';   
+        html += '<table class=\"w3-table w3-bordered w3-centered w3-striped\"><tr><th>Move</th><th>Rating</th><th>Position</th></tr>';
+        response = response.result;
+        // console.log("Marker");
+
+        // var idx = 0;
+        var xvalstr = '[';
+        var yvalstr = '[';
+        var endpos  = '';
+        
+        // Test Values
+        // var xvalstr = '["1W","1B",3,4,5,6,7,];';
+        // var yvalstr = '[0.06,0.14,0.52,0.75,-0.1,-0.9,0.9,];';  
+
+        Object.keys(response).forEach(element => {
+            html += "<tr><td>"+response[element].move+"</td>";
+            // html += "<td>"+response[element].color+"</td>";
+            html += "<td>"+response[element].rating+"</td>";
+            // html += '<td><button id="setFenBtn'+idx+++'">FEN'+idx+'</button></td></tr>';
+            html += '<td><button class="w3-btn w3-brown" id="setFenBtn'+response[element].move+'">Show '+response[element].move+'</button></td></tr>';
+            xvalstr += '"'+response[element].move+'",'; // Place string like 1W into quotation marks
+            yvalstr += response[element].rating+',';    // Numerical values do not need quotation marks
+            endpos = response[element].fen; // Overwrite to get the last one without use of index
+            });
+            xvalstr += '];';
+            yvalstr += '];';
+            endpos = '\''+endpos+'\',';
+
+        html +="</table><br>";
+        html +='<button class="w3-btn w3-brown" id="startBtn">Start Position</button>';
+        html +="<br></div>";
+    
+        // Start script section in generated HTML
+        html +='<scr';
+        html +='ipt>';
+
+        // Chart
+        html +='var xValues = '+xvalstr;
+        html +='var yValues = '+yvalstr;
+        html +='new Chart("myChart", {';
+        html +='type: "line",';
+        html +='data: {';
+            html +='labels: xValues,';
+            html +='datasets: [{';
+                html +='fill: false,';
+                html +='lineTension: 0.1,';
+                html +='backgroundColor: "rgba(140,104,74,1.0)",';
+                html +='borderColor: "rgba(140,104,74,0.2)",';
+                html +='data: yValues';
+                html +='}]},';
+            html +='options: {';
+                html +='legend: {display: false},';
+                html +='scales: {';
+                html +='yAxes: [{ticks: {min: -1, max:1}}]';
+            html +='}}});';
+        // html +="myChart.destroy();"
+
+        // Chessboard Script
+        html +='var board = ChessBoard(\'board\', {';
+        html +='position: '+endpos; // \'r2q1rk1/pp1nbpp1/2p1pn1p/7P/3PNB2/3Q1N2/PPP2PP1/1K1R3R b - - 5 14\',';
+        html +='draggable: true,';
+        html +='dropOffBoard: \'trash\',';
+        html +='sparePieces: false});';
+        idx = 0;
+        Object.keys(response).forEach(element => { 
+            // html +='$(\'#setFenBtn'+idx+++'\').on(\'click\', function () {board.position(\''+response[element].fen+'\')});';
+            html +='$(\'#setFenBtn'+response[element].move+'\').on(\'click\', function () {board.position(\''+response[element].fen+'\')});';
+            });
+        html +='$(\'#startBtn\').on(\'click\', board.start);';
+        // html +='$(\'#clearBtn\').on(\'click\', board.start);';        
+        // html +='$(\'#setFenBtn\').on(\'click\', function () {board.position(\'rnbqkbnr/pp1ppppp/2p5/8/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2\')});';
+        
+        // End script section in generated HTML
+        // Because </ script> is declared again, HTML parser shows an error
+        html +='</scr'; // Workaround from https://stackoverflow.com/questions/40222809/syntaxerror-unexpected-eof-on-closing-script
+        html +='ipt>';        
+
+        // Display HTML in DIV section of HTML body
+        // idx = 0;
+        $(".show-data").empty().append(html);
+    });
+};
+</script>
+
+<body>
+    <!-- Header -->
+    <h1 align="center" class="w3-container w3-brown">Chess Winner Prediction</h1>
+
+    <!-- Textbox for PGN -->
+    <div align="left" class="none">
+    <p>
+    <label class="w3-text-brown"><b>Enter PGN</b></label>
+    <input class="w3-input w3-border" type="text" id="pgn" name="pgn" size="50" required></input>
+    <p><button class="w3-btn w3-brown" id="clicked" onclick="myFunction(0)">Submit</button></p>
+    </p>
+    </div>
+
+    <!-- Section where dynamic content is placed -->
+    <div class="show-data">
+        <div align="left" class="fixed">
+            <h3 align="center">Introduction</h3>
+            <p>Text after text</p>
+        </div><br>
+
+        <div align="left" class="fixed">
+            <h3 align="center">Usage</h3>
+            Text after text
+            <ul>
+            <li><a href="javascript:void(0)" onclick="myFunction(1)">Example for white win</a></li>
+            <li><a href="javascript:void(0)" onclick="myFunction(2)">Example for black win</a></li>
+            <li><a href="javascript:void(0)" onclick="myFunction(3)">Example for a tie </a></li>
+            </ul>
+            Text after text
+        </div><br>
+
+        <div align="left" class="fixed">
+            <h3 align="center">Documentation</h3>
+            Text after text
+        </div>
+    </div>
+    <div align="center" class="none">   
+    <p>Mail questions or comments to <a href="mailto:chess@kohlenz.com">chess@kohlenz.com</a></p>
+    </div>
+
+</body>
+</html>

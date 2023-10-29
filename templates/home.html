@@ -29,9 +29,9 @@
 <script>
 function myFunction(select) {
     var pgn;
-    console.log("I am here");
+    console.log("Hello");
     switch (select) {
-        case  1: pgn = '1.d4 Nf6 2.Nf3 g6 3.c4 Bg7 4.Nc3 d6 5.e4 c6 6.Be2 O-O 7.O-O Qe8 8.e5 Nfd7 9.exd6 exd6 10.Bf4 Qe6 11.Re1 Rd8 12.Bd3 Qg4 13.Bxd6 Nf6 14.c5 Bf5 15.h3 Qh5 16.g4 Nxg4 17.Bxf5 gxf5 18.hxg4 fxg4 19.Ne5 f5 20.Qb3+ Kh8 21.Nf7+ Kg8 22.Nxd8+ Kh8 23.Nf7+ Kg8 24.Nh6+ Kh8 25.Qg8#'; break;
+        case  1: pgn = '1. a3 g5 2. e4 c5 3. d4 cxd4 4. Qxd4 Nf6 5. Bxg5 Nc6 6. Qd3 Qb6 7. Bc1 Ng4 8. Nh3 d6 9. Nc3 Nge5 10. Qb5 Qxb5 11. Bxb5 Bxh3 12. gxh3 a6 13. Be2 Nd4 14. Kd1 Nxe2 15. Nxe2 Rc8 16. b3 Rg8 17. Be3 b5 18. a4 b4 19. a5 e6 20. Ra2 Be7 21. Ng3 Kd7 22. Ke2 Bd8 23. Rd1 Rb8 24. f4 Nc6 25. Bc5 Bc7 26. Bxd6 Bxd6 27. e5 Kc7 28. exd6+ Kd7 29. Ne4 Rg2+ 30. Kf3 Rxh2 31. Nc5+ Ke8 32. Rg1'; break;
         case  2: pgn = '1.e4 e6 2.d4 d5 3.Nd2 Be7 4.e5 c5 5.Qg4 g6 6.dxc5 Nd7 7.Ndf3 Nxc5 8.Bd3 Qa5+ 9.Bd2 Qb6 10.b4 Nxd3+ 11.cxd3 Bd7 12.a4 h5 13.Qd4 Nh6 14.Ne2 Nf5 15.Qb2 O-O 16.O-O Rfc8 17.h3 Qa6 18.b5 Qb6 19.Ned4 Bc5 20.Nxf5 exf5 21.a5 Qxb5 22.Rfb1 Qxb2 23.Rxb2 Bc6 24.Be3 b6 25.d4 Be7 26.axb6 axb6 27.Rxa8 Rxa8 28.Rxb6 Rc8 29.Bg5 Bf8 30.e6 fxe6 31.Ne5 Be8 32.Rxe6 Kh7 33.Ra6 Bg7 34.Bf6 Bxf6 35.Rxf6 Kg7 36.Rd6 Bf7 37.Rd7 Rf8 38.h4 f4 39.Rb7 Kg8 40.Kf1 Be8 41.Ke2 Rf6 42.Kf3 Kf8 43.Rc7 Ba4 44.Rc5 Bd1#'; break; 
         case  3: pgn = '1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7 9.Bd3 Bxd3 10.Qxd3 Ngf6 11.Bf4 e6 12.O-O-O Be7 13.Ne4 O-O 14.Kb1'; break; 
         default: pgn = $('#pgn').val(); break;
@@ -47,11 +47,18 @@ function myFunction(select) {
         var html = '';
 
         switch (select) {
+            case 1: 
+                html +='<div align="left" class="fixed">';
+                html +='This is an example for a white win from a game between Hikaru Nakamura (playing white) and Magnus Carlsen (playing black) on October 11, 2022, available at ';
+                html +='<a href="https://www.chess.com/games/view/16270059">chess.com</a>. '
+                html +='The majority of moves above the zero line point to a white win. ';    
+                html +="<br></div></p>";
+                break;
             default: 
                 html +='<div align="left" class="fixed">';
                 html +='The PGN evaluated in this run is '+pgn;    
                 html +="<br></div></p>";
-            break;
+                break;
         }
 
         // HTML Chart
@@ -98,6 +105,10 @@ function myFunction(select) {
         html +="</table><br>";
         html +='<button class="w3-btn w3-brown" id="startBtn">Start Position</button>';
         html +="<br></div>";
+    
+        html +='<div align="left" class="fixed">';
+        html +='The PGN evaluated in this run is '+pgn;    
+        html +="<br></div></p>";
     
         // Start script section in generated HTML
         html +='<scr';

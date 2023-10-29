@@ -19,6 +19,10 @@
     <style> div.none    {width:     750px; margin: auto; border: 0px solid #acb1a6; padding: 0px;}</style>
     <style> div.fixed   {width:     750px; margin: auto; border: 1px solid #acb1a6; padding: 5px;}</style>
     <style> div.flex    {max-width: 750px; margin: auto; border: 1px solid #acb1a6; padding: 5px;}</style>
+    <style> a.header:link    {text-decoration:none;}
+            a.header:visited {text-decoration:none;}
+            a.header:hover   {text-decoration:underline;}
+    </style>
 </head>
 
 
@@ -32,7 +36,7 @@ function myFunction(select) {
         case  3: pgn = '1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7 9.Bd3 Bxd3 10.Qxd3 Ngf6 11.Bf4 e6 12.O-O-O Be7 13.Ne4 O-O 14.Kb1'; break; 
         default: pgn = $('#pgn').val(); break;
     } 
-    // var pgn = $('#pgn').val();
+
     $.ajax({
         url: "/join",
         type: "POST",
@@ -40,7 +44,6 @@ function myFunction(select) {
     }).done(function(response) {
 
         // Start of dynamic section
-        //var html = "<br><div id="board1" style="width: 400px"></div><p><b>Move Ratings:</b></p>";
         var html = '';
 
         switch (select) {
@@ -150,7 +153,7 @@ function myFunction(select) {
 
 <body>
     <!-- Header -->
-    <h1 align="center" class="w3-container w3-brown">Chess Winner Prediction</h1>
+    <h1 align="center" class="w3-container w3-brown"><a class="header" href="http://www.kohlenz.com/chess">Chess Winner Prediction</a></h1>
 
     <!-- Textbox for PGN -->
     <div align="left" class="none">

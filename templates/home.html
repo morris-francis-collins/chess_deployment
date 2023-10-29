@@ -32,8 +32,7 @@ function myFunction(select) {
     console.log("Hello");
     switch (select) {
         case  1: pgn = '1. a3 g5 2. e4 c5 3. d4 cxd4 4. Qxd4 Nf6 5. Bxg5 Nc6 6. Qd3 Qb6 7. Bc1 Ng4 8. Nh3 d6 9. Nc3 Nge5 10. Qb5 Qxb5 11. Bxb5 Bxh3 12. gxh3 a6 13. Be2 Nd4 14. Kd1 Nxe2 15. Nxe2 Rc8 16. b3 Rg8 17. Be3 b5 18. a4 b4 19. a5 e6 20. Ra2 Be7 21. Ng3 Kd7 22. Ke2 Bd8 23. Rd1 Rb8 24. f4 Nc6 25. Bc5 Bc7 26. Bxd6 Bxd6 27. e5 Kc7 28. exd6+ Kd7 29. Ne4 Rg2+ 30. Kf3 Rxh2 31. Nc5+ Ke8 32. Rg1'; break;
-        case  2: pgn = '1.e4 e6 2.d4 d5 3.Nd2 Be7 4.e5 c5 5.Qg4 g6 6.dxc5 Nd7 7.Ndf3 Nxc5 8.Bd3 Qa5+ 9.Bd2 Qb6 10.b4 Nxd3+ 11.cxd3 Bd7 12.a4 h5 13.Qd4 Nh6 14.Ne2 Nf5 15.Qb2 O-O 16.O-O Rfc8 17.h3 Qa6 18.b5 Qb6 19.Ned4 Bc5 20.Nxf5 exf5 21.a5 Qxb5 22.Rfb1 Qxb2 23.Rxb2 Bc6 24.Be3 b6 25.d4 Be7 26.axb6 axb6 27.Rxa8 Rxa8 28.Rxb6 Rc8 29.Bg5 Bf8 30.e6 fxe6 31.Ne5 Be8 32.Rxe6 Kh7 33.Ra6 Bg7 34.Bf6 Bxf6 35.Rxf6 Kg7 36.Rd6 Bf7 37.Rd7 Rf8 38.h4 f4 39.Rb7 Kg8 40.Kf1 Be8 41.Ke2 Rf6 42.Kf3 Kf8 43.Rc7 Ba4 44.Rc5 Bd1#'; break; 
-        case  3: pgn = '1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Bf5 5.Ng3 Bg6 6.h4 h6 7.Nf3 Nd7 8.h5 Bh7 9.Bd3 Bxd3 10.Qxd3 Ngf6 11.Bf4 e6 12.O-O-O Be7 13.Ne4 O-O 14.Kb1'; break; 
+        case  2: pgn = '1. g3 e5 2. c4 c6 3. Bg2 d5 4. Nf3 e4 5. Nd4 dxc4 6. Nc2 Nf6 7. Nc3 Bf5 8. O-O Bg6 9. Ne3 b5 10. b3 cxb3 11. Qxb3 Nbd7 12. Bb2 Nc5 13. Qc2 Be7 14. Rfc1 O-O 15. Ncd1 a5 16. Bxf6 gxf6 17. g4 Ne6 18. Nf5 Bxf5 19. gxf5 Nd4 20. Qxe4 Ba3 21. Rc3 Bb4 22. Rh3 Re8 23. Qg4+ Kf8 24. e3 Nc2 25. Rxh7 Nxa1 26. Bxc6 Ke7 27. Bxb5 Rg8 28. Rg7 Rxg7 29. Qxg7 Qg8 30. Qxg8 Rxg8+ 31. Kf1 Rb8 32. Ke2 Rxb5'; break;
         default: pgn = $('#pgn').val(); break;
     } 
 
@@ -56,10 +55,19 @@ function myFunction(select) {
                 html +='If you have a PGN you would like to evaluate, paste it in the text box at the top of this page and press "Submit".';
                 html +='</div><br>';
                 break;
-            default: 
+            case 2: 
                 html +='<div align="left" class="fixed">';
-                html +='The PGN evaluated in this run is '+pgn;    
-                html +="<br></div><br>";
+                html +='This is an example for a black win from a game between Alireza Firouzja (playing white) and Magnus Carlsen (playing black) on July 19, 2023. This game was won by Magnus Carlsen playing black and its PGN is available at ';
+                html +='<a href="https://www.chess.com/games/view/16551049">chess.com</a>.<br>';
+                html +='<p>The AI on this wepage generated the graph in section "Move Ratings". Each move (indexed on the horizontal axis) is rated to be more favorable to a white win (if above the zero line) or to a black win (if below the zero line). The majority of moves are below the zero line and point to a black win. Notable changes occur between moves 26W and 31W.<br></p>'; 
+                html +='<p>The chessboard in section "Moves on Board" shows the final board position on move 32B. Beneath the chess board is a table with a button for each move of the game. This allows to replay and analyze moves that resulted in large changes of favorability towards a white win or a black win. For this game, clicking on "Show 26W" until "Show 31W" replays a series of piece captures that returned the board position towards favorable to a black win from a brief sequence of moves that were favorable to a white win. During this signficant sequence of moves a white rook, a black rook, the black queen and the white queen were captured, removing all white rooks from the board.<br></p>';
+                html +='If you have a PGN you would like to evaluate, paste it in the text box at the top of this page and press "Submit".';
+                html +='</div><br>';
+                break;
+            default: 
+                // html +='<div align="left" class="fixed">';
+                // html +='The PGN evaluated in this run is '+pgn;    
+                // html +="<br></div><br>";
                 break;
         }
 
@@ -182,18 +190,21 @@ function myFunction(select) {
     <div class="show-data">
         <div align="left" class="fixed">
             <h3 align="center">Introduction</h3>
-            <p>Text after text</p>
+            This webpage uses AI to evaluate a sequence of chess moves in the form of a <a href="https://en.wikipedia.org/wiki/Portable_Game_Notation">PGN (Portable Game Notation)</a>.
+            Each move in the sequence is rated to be more favorable to a white win or to a black win. 
+            This can be used with partially played games to predict the likelihood of a white win or a black win. 
+            Or it can be used to analyze already played games to find which sequence of moves turned the board to be more favorable to a white win or a black win.            
         </div><br>
 
         <div align="left" class="fixed">
             <h3 align="center">Usage</h3>
-            Text after text
+            The best way to learn how to use this webpage is by clicking on the the below examples for a white win and a black win. Doing so will run a pre-selected PGN on the AI model and provide a description how to interpret the results.
             <ul>
             <li><a href="javascript:void(0)" onclick="myFunction(1)">Example for white win</a></li>
             <li><a href="javascript:void(0)" onclick="myFunction(2)">Example for black win</a></li>
-            <li><a href="javascript:void(0)" onclick="myFunction(3)">Example for a tie </a></li>
             </ul>
-            Text after text
+            <p>For use with any PGN, just copy the PGN you would like to evaluate into the textbox on top of the page and press "Submit". Please make sure to leave out auxiliary information in square brackets that often comes with PGNs and submit only the move sequence, starting with with the number "1."</p>
+            A large selection of PGNs is available in the <a href="https://www.chess.com/games">games database at chess.com</a>. PGNs can be exported with the <a href="https://www.chess.com/terms/chess-pgn#using-pgn-chesscom">instructions at chess.com</a>.
         </div><br>
 
         <div align="left" class="fixed">

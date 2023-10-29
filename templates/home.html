@@ -49,15 +49,17 @@ function myFunction(select) {
         switch (select) {
             case 1: 
                 html +='<div align="left" class="fixed">';
-                html +='This is an example for a white win from a game between Hikaru Nakamura (playing white) and Magnus Carlsen (playing black) on October 11, 2022, available at ';
-                html +='<a href="https://www.chess.com/games/view/16270059">chess.com</a>. '
-                html +='The majority of moves above the zero line point to a white win. ';    
-                html +="<br></div></p>";
+                html +='This is an example for a white win from a game between Hikaru Nakamura (playing white) and Magnus Carlsen (playing black) on October 11, 2022. This game was won by Hikaru Nakamura playing white and its PGN is available at ';
+                html +='<a href="https://www.chess.com/games/view/16270059">chess.com</a>.<br>';
+                html +='<p>The AI on this wepage generated the graph "Move Ratings". Each move (indexed on the horizontal axis) is rated to be more favorable to a white win (if above the zero line) or to a black win (if below the zero line). The majority of moves are above the zero line and point to a white win. Notable changes occur between moves 10W and 11W, between 13W and 14B and again between 19W and 22W. From move 22W onwards, the graphs indicates moves all favorable to a white win until the end of the game on move 32W.<br></p>'; 
+                html +='<p>The chessboard in section "Moves on Board" shows the final board position on move 32W. Beneath the chess board is a table with a button for each move of the game. This allows to replay and analyze moves that resulted in large changes of favorability towards a white win or a black win. For this game, clicking on "Show 10W" until "Show 12W" replays a series of piece captures that turned the board position from favorable to a black win towards favorable to a white win.<br></p>';
+                html +='If you have a PGN you would like to evaluate, paste it in the text box at the top of this page and press "Submit".';
+                html +='</div><br>';
                 break;
             default: 
                 html +='<div align="left" class="fixed">';
                 html +='The PGN evaluated in this run is '+pgn;    
-                html +="<br></div></p>";
+                html +="<br></div><br>";
                 break;
         }
 
@@ -104,12 +106,8 @@ function myFunction(select) {
 
         html +="</table><br>";
         html +='<button class="w3-btn w3-brown" id="startBtn">Start Position</button>';
-        html +="<br></div>";
-    
-        html +='<div align="left" class="fixed">';
-        html +='The PGN evaluated in this run is '+pgn;    
-        html +="<br></div></p>";
-    
+        html +="<br></div></div><br>";
+        
         // Start script section in generated HTML
         html +='<scr';
         html +='ipt>';
@@ -154,6 +152,11 @@ function myFunction(select) {
         // Because </ script> is declared again, HTML parser shows an error
         html +='</scr'; // Workaround from https://stackoverflow.com/questions/40222809/syntaxerror-unexpected-eof-on-closing-script
         html +='ipt>';        
+
+        html +='<div align="center" class="fixed"><h3>PGN</h3>';
+        html +='<div align="left">'+pgn;
+        // html +='The <a href="https://en.wikipedia.org/wiki/Portable_Game_Notation">PGN<a> evaluated is <br>'+pgn;    
+        html +="</div></div>";
 
         // Display HTML in DIV section of HTML body
         // idx = 0;
